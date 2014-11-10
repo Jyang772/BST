@@ -10,6 +10,9 @@ ostream& operator<<(ostream&, const TreeNode&);
 
 int main()
 {
+
+    ifstream file;
+    file.open("students.dat");
     int test[3] = {100,100,100};
     Tree tree;
     Student student("Mr. Mead",18,"Computer Science",test,1337);
@@ -24,11 +27,25 @@ int main()
     tree.Insert(student);
     tree.Insert(student2);
     tree.Insert(student3);
-    tree.Insert(student4);
-    tree.Insert(student5);
-    tree.Insert(student6);
+    //tree.Insert(student4);
+    //tree.Insert(student5);
+    //tree.Insert(student6);
 
-    //cout << tree.getHeight() << endl;
+//    Student students[4];
+//    students[0].readFromFile(file);
+//    students[1].readFromFile(file);
+//    students[2].readFromFile(file);
+//    students[3].readFromFile(file);
+
+//    tree.Insert(students[0]);
+//    tree.Insert(students[1]);
+//    tree.Insert(students[2]);
+    //tree.Insert(students[2]);
+
+
+
+
+    cout << tree.getHeight() << endl;
     //cout << tree << endl;
     cout << tree << endl;
     //tree.PrintTree();

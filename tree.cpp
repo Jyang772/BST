@@ -44,7 +44,7 @@ ostream& operator<<(ostream& os, Tree& tree){
 
     //tree.Print(os,tree.m_root);
     //tree.PrintTree(os,tree.m_root);
-    tree.PrintTree2(tree.m_root,20,30,os);
+    tree.PrintTree2(tree.m_root,8,7,os);
     return os;
 }
 
@@ -240,7 +240,8 @@ void Tree::PrintTree(ostream& os, TreeNode *pTree) {
 
 void Tree::PrintTree2(TreeNode* pTree, int level, int indentSpace, ostream& out ){
 
-    int h = getHeight(m_root)+1;
+    int h = getHeight(m_root)+2;
+    cout << h << endl;
     int nodesInThisLevel = 1;
 
     int branchLen = 2*((int)pow(2.0,h)-1) - (3-level)*(int)pow(2.0,h-1);
@@ -254,7 +255,7 @@ void Tree::PrintTree2(TreeNode* pTree, int level, int indentSpace, ostream& out 
       branchLen = branchLen/2 - 1;
       nodeSpaceLen = nodeSpaceLen/2 + 1;
       startLen = branchLen + (3-level) + indentSpace;
-      printNodes(branchLen, nodeSpaceLen, startLen, nodesInThisLevel, nodesQueue, out);
+      printNodes(branchLen, nodeSpaceLen, startLen, nodesInThisLevel, r, nodesQueue, out);
 
       for (int i = 0; i < nodesInThisLevel; i++) {
         TreeNode *currNode = nodesQueue.front();
@@ -285,7 +286,7 @@ void Tree::printBranches(int branchLen, int nodeSpaceLen, int startLen, int node
     out << endl;
 }
 
-void Tree::printNodes(int branchLen, int nodeSpaceLen, int startLen, int nodesInThisLevel, const deque<TreeNode*>& nodesQueue, ostream& out) {
+void Tree::printNodes(int branchLen, int nodeSpaceLen, int startLen, int nodesInThisLevel, int currentLevel, const deque<TreeNode*>& nodesQueue, ostream& out) {
     deque<TreeNode*>::const_iterator iter = nodesQueue.begin();
     for (int i = 0; i < nodesInThisLevel; i++, iter++) {
       out << ((i == 0) ? setw(startLen) : setw(nodeSpaceLen)) << "" << ((*iter && (*iter)->m_left) ? setfill(' ') : setfill(' '));
@@ -296,8 +297,8 @@ void Tree::printNodes(int branchLen, int nodeSpaceLen, int startLen, int nodesIn
     iter = nodesQueue.begin();
   //
     for (int i = 0; i < nodesInThisLevel; i++, iter++) {
-      out << ((i == 0) ? setw(startLen) : setw(nodeSpaceLen)) << "" << ((*iter && (*iter)->m_left) ? setfill(' ') : setfill(' '));
-      out << setw(branchLen+2) << ((*iter) ? ("major: Computer Science") : "");
+      out << ((i == 0) ? setw(startLen) : setw(nodeSpaceLen-10)) << "" << ((*iter && (*iter)->m_left) ? setfill(' ') : setfill(' '));
+      out << setw(branchLen-10) << "" << ((*iter) ? ("major: Computer Science") : "");
       out << ((*iter && (*iter)->m_right) ? setfill(' ') : setfill(' ')) << setw(branchLen) << "" << setfill(' ');
     }
     out << endl;
@@ -313,8 +314,8 @@ void Tree::printNodes(int branchLen, int nodeSpaceLen, int startLen, int nodesIn
   //
 
     for (int i = 0; i < nodesInThisLevel; i++, iter++) {
-    out << ((i == 0) ? setw(startLen) : setw(nodeSpaceLen)) << "" << ((*iter && (*iter)->m_left) ? setfill(' ') : setfill(' '));
-    out << setw(branchLen+2) << ((*iter) ? ("tests: 100 100 100") : "");
+    out << ((i == 0) ? setw(startLen) : setw(nodeSpaceLen-5)) << "" << ((*iter && (*iter)->m_left) ? setfill(' ') : setfill(' '));
+    out << setw(branchLen+2+currentLevel) << ((*iter) ? ("tests: 100 100 100") : "");
     out << ((*iter && (*iter)->m_right) ? setfill(' ') : setfill(' ')) << setw(branchLen) << "" << setfill(' ');
     }
     out << endl;

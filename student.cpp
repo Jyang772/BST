@@ -69,12 +69,13 @@ bool Student::readFromFile(ifstream &is){
         return false;
     }
 
-    is >> m_major;
+    getline(is, m_major);
     is >> m_age;
     is >> m_test[0];
     is >> m_test[1];
     is >> m_test[2];
     is >> m_id;
+    is.ignore();
 
     return true;
 
@@ -146,3 +147,4 @@ ostream& Student::writeTree(ostream& os, int length){
     return os;
 
 }
+
