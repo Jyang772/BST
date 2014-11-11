@@ -18,7 +18,9 @@ Student::Student(string name, int age, string major, int tests[], int id){
 
 bool Student::operator <(Student& other) const{
 
-    if(m_name.compare(other.m_name) < 0)
+//    if(m_name.compare(other.m_name) < 0)
+//        return true;
+    if(this->m_id < other.m_id)
         return true;
 
     return false;
@@ -33,7 +35,10 @@ bool Student::operator <(int id) const{
 
 bool Student::operator >(Student& other) const{
 
-    if(m_name.compare(other.m_name) > 0)
+//    if(m_name.compare(other.m_name) > 0)
+//        return true;
+
+    if(this->m_id > other.m_id)
         return true;
 
     return false;

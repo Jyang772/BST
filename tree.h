@@ -39,7 +39,6 @@ public:
 
     bool IsEmpty() const;
     int Size() const;
-    bool Insert(const Student& student,Tree*& pTree);
     bool Delete(int id);
     bool Lookup(Student &student) const;
     void Print() const;

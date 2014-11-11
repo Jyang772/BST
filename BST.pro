@@ -6,9 +6,11 @@ CONFIG -= qt
 
 SOURCES += main.cpp \
     student.cpp \
-    tree.cpp
+    tree.cpp \
+    menu.cpp
 
 HEADERS += \
     student.h \
-    tree.h
+    tree.h \
+    menu.h
 

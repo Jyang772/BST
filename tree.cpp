@@ -44,7 +44,7 @@ ostream& operator<<(ostream& os, Tree& tree){
 
     //tree.Print(os,tree.m_root);
     //tree.PrintTree(os,tree.m_root);
-    tree.PrintTree2(tree.m_root,8,7,os);
+    tree.PrintTree2(tree.m_root,5,7,os);
     return os;
 }
 
@@ -81,7 +81,10 @@ bool Tree::Lookup(Student &student, TreeNode *pTree) const{
             Lookup(student,pTree->m_right);
         }
         else
+        {
+            student = pTree->m_student;
             return true;
+        }
 
     }
 
@@ -117,8 +120,10 @@ bool Tree::Delete(int id, TreeNode *&pTree){
     else if(pTree->m_student < id){
         Delete(id,pTree->m_right);
     }
-    else
+    else{
+        cout << "Deleting Node!" << endl;
         DeleteNode(pTree);
+    }
 }
 
 void Tree::DeleteNode(TreeNode *&pTree){
@@ -139,7 +144,7 @@ void Tree::DeleteNode(TreeNode *&pTree){
     else{
         GetPredecessor(pTree->m_left,data);
         pTree->m_student = data;
-        Delete(data.getID(),pTree);
+        Delete(data.getID(),pTree->m_left);
     }
 }
 
@@ -298,7 +303,7 @@ void Tree::printNodes(int branchLen, int nodeSpaceLen, int startLen, int nodesIn
   //
     for (int i = 0; i < nodesInThisLevel; i++, iter++) {
       out << ((i == 0) ? setw(startLen) : setw(nodeSpaceLen-10)) << "" << ((*iter && (*iter)->m_left) ? setfill(' ') : setfill(' '));
-      out << setw(branchLen-10) << "" << ((*iter) ? ("major: Computer Science") : "");
+      out << setw(branchLen-10) << "" << ((*iter) ? ("major: Mathematics") : "");
       out << ((*iter && (*iter)->m_right) ? setfill(' ') : setfill(' ')) << setw(branchLen) << "" << setfill(' ');
     }
     out << endl;
@@ -306,7 +311,16 @@ void Tree::printNodes(int branchLen, int nodeSpaceLen, int startLen, int nodesIn
   //
     for (int i = 0; i < nodesInThisLevel; i++, iter++) {
       out << ((i == 0) ? setw(startLen) : setw(nodeSpaceLen)) << "" << ((*iter && (*iter)->m_left) ? setfill(' ') : setfill(' '));
-      out << setw(branchLen+2) << ((*iter) ? ("age: 10") : "");
+      //out << setw(branchLen+2) << ((*iter) ? ("age: 10") : "");
+
+      if((*iter)){
+          out << setw(branchLen+2) << "age: " << (*iter)->m_student.m_age;
+      }
+      else{
+          out << setw(branchLen+2) << "";
+
+      }
+
       out << ((*iter && (*iter)->m_right) ? setfill(' ') : setfill(' ')) << setw(branchLen) << "" << setfill(' ');
     }
     out << endl;
@@ -323,7 +337,15 @@ void Tree::printNodes(int branchLen, int nodeSpaceLen, int startLen, int nodesIn
   //
     for (int i = 0; i < nodesInThisLevel; i++, iter++) {
     out << ((i == 0) ? setw(startLen) : setw(nodeSpaceLen)) << "" << ((*iter && (*iter)->m_left) ? setfill('_') : setfill(' '));
-    out << setw(branchLen+2) << ((*iter) ? ("id: 1337") : "");
+    //out << setw(branchLen+2) << ((*iter) ? ("id: 1337") : "");
+    if((*iter)){
+        out << setw(branchLen+2) << "ID: " << (*iter)->m_student.m_id;
+    }
+    else{
+        out << setw(branchLen+2) << "";
+
+    }
+
     out << ((*iter && (*iter)->m_right) ? setfill('_') : setfill(' ')) << setw(branchLen) << "" << setfill(' ');
     }
 
