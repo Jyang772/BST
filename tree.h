@@ -42,13 +42,17 @@ public:
     bool Delete(int id);
     bool Lookup(Student &student) const;
     void Print() const;
-    //void Print();
 
     Tree& operator=(const Tree& tree2);
 
 
     //EXTRA
-    void PrintTree(ostream& os, TreeNode* pTree);
+
+    double getMaxAvg();
+    void getMaxAvg(double &max, TreeNode *pTree);
+
+    void PrintFile(ofstream& of);
+    //void PrintTree(ostream& os, TreeNode* pTree);
     int getHeight();
 
     void PrintTree2(TreeNode* pTree,int level, int indentSpace, ostream&);
@@ -85,15 +89,6 @@ private:
 
 };
 
-class Wrapper
-{
-    TreeNode *node;
-    int level;
-    Wrapper(TreeNode *node, int level){
-        this->node = node;
-        this->level = level;
-    }
-};
 
 
 

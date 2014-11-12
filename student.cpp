@@ -51,13 +51,23 @@ bool Student::operator >(int id) const{
 }
 
 ostream& operator <<(ostream& os, Student& other) {
-    os << other.m_name << ", ";
-    os << other.m_major << ", ";
-    os << other.m_age << ", ";
-    os << other.m_test[0] << ", ";
-    os << other.m_test[1] << ", ";
-    os << other.m_test[2] << ", ";
+
+
+    os << other.m_name << endl;
+    os << other.m_major << endl;
+    os << other.m_age << endl;
+    os << other.m_test[0] << " ";
+    os << other.m_test[1] << " ";
+    os << other.m_test[2] << endl;
     os << other.m_id << endl;
+
+//    os << other.m_name << ", ";
+//    os << other.m_major << ", ";
+//    os << other.m_age << ", ";
+//    os << other.m_test[0] << ", ";
+//    os << other.m_test[1] << ", ";
+//    os << other.m_test[2] << ", ";
+//    os << other.m_id << endl;
 
     return os;
 }
@@ -153,3 +163,7 @@ ostream& Student::writeTree(ostream& os, int length){
 
 }
 
+double Student::getAverage(){
+
+    return (double(m_test[0] + m_test[1] + m_test[2]) / 3);
+}

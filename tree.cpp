@@ -42,9 +42,8 @@ void Tree::Print() const{
 
 ostream& operator<<(ostream& os, Tree& tree){
 
-    //tree.Print(os,tree.m_root);
-    //tree.PrintTree(os,tree.m_root);
-    tree.PrintTree2(tree.m_root,5,7,os);
+    tree.Print(os,tree.m_root);
+    //tree.PrintTree2(tree.m_root,5,7,os);
     return os;
 }
 
@@ -54,6 +53,9 @@ int Tree::getHeight(){
     return getHeight(m_root);
 }
 
+void Tree::PrintFile(ofstream &of){
+    Print(of,m_root);
+}
 
 //Private Helper Functions
 
@@ -75,6 +77,7 @@ bool Tree::Lookup(Student &student, TreeNode *pTree) const{
     }
     else{
         if(student < pTree->m_student){
+            cout << "Less" << endl;
             Lookup(student,pTree->m_left);
         }
         else if(student > pTree->m_student){
@@ -82,14 +85,12 @@ bool Tree::Lookup(Student &student, TreeNode *pTree) const{
         }
         else
         {
+            cout << "Found" << endl;
             student = pTree->m_student;
-            return true;
         }
 
     }
-
-    return false;
-
+    return true;
 }
 
 bool Tree::Insert(const Student &student, TreeNode *&pTree){
@@ -114,13 +115,16 @@ bool Tree::Insert(const Student &student, TreeNode *&pTree){
 
 bool Tree::Delete(int id, TreeNode *&pTree){
 
+    if(pTree == nullptr)
+        return false;
+
     if(pTree->m_student > id){
         Delete(id,pTree->m_left);
     }
     else if(pTree->m_student < id){
         Delete(id,pTree->m_right);
     }
-    else{
+    else if(pTree->m_student.m_id == id){
         cout << "Deleting Node!" << endl;
         DeleteNode(pTree);
     }
@@ -191,6 +195,7 @@ void Tree::Copy(TreeNode *&pThis, TreeNode *pTree2){
 
 void Tree::Print(TreeNode *pTree) const{
 
+    Print(std::cout,m_root);
 
 }
 
@@ -209,6 +214,28 @@ void Tree::Print(ostream &os, TreeNode *pTree) const{
 
 //EXTRA
 
+
+//Get maximum average
+
+double Tree::getMaxAvg(){
+
+    double max = 0;
+    getMaxAvg(max,m_root);
+    return max;
+}
+
+void Tree::getMaxAvg(double &max, TreeNode *pTree){
+
+    double average;
+    if(pTree != nullptr){
+
+        getMaxAvg(max,pTree->m_left);
+        max = pTree->m_student.getAverage();
+        getMaxAvg(max,pTree->m_right);
+    }
+
+}
+
 int Tree::getHeight(TreeNode *pTree){
 
     if(pTree == nullptr){
@@ -218,28 +245,6 @@ int Tree::getHeight(TreeNode *pTree){
    return MAX(getHeight(pTree->m_left), getHeight(pTree->m_right)) + 1;
 
 
-
-}
-
-void Tree::PrintTree(ostream& os, TreeNode *pTree) {
-
-    if(pTree == m_root)
-        height = 2;
-
-
-
-//    if(pTree != nullptr){
-//        int length = pTree->m_student.m_major.size()*height;
-//        pTree->m_student.writeTree(os,length);
-//        for(int i=0; i<pTree->m_student.m_name.size()*height; i++)
-//            os << "\t";
-//        os << "/\n";
-
-//        cout << "Printing level: " << height << endl;
-//        PrintTree(os,pTree->m_left);
-//        PrintTree(os,pTree->m_right);
-
-//    }
 
 }
 
@@ -280,7 +285,6 @@ void Tree::PrintTree2(TreeNode* pTree, int level, int indentSpace, ostream& out 
 
 
 }
-
 
 void Tree::printBranches(int branchLen, int nodeSpaceLen, int startLen, int nodesInThisLevel, const deque<TreeNode*>& nodesQueue, ostream& out) {
     deque<TreeNode*>::const_iterator iter = nodesQueue.begin();

@@ -42,18 +42,22 @@ void Menu::writeFileData(){
     std::cout << "Enter file name: ";
     std::cin >> fileName;
 
+    file.open(fileName);
 
+    tree->PrintFile(file);
+    file << "***";
+    file.close();
     //tree->PrintTree(file,tree->m_root);
 }
 
 void Menu::search(){
 
-    std::string name;
-    std::cout << "Enter student name: ";
-    std::cin >> name;
+    int id;
+    std::cout << "Enter student id: ";
+    std::cin >> id;
 
     Student temp;
-    temp.m_name = name;
+    temp.m_id = id;
 
     if(tree->Lookup(temp)){
         cout << "Student Found: \n";
@@ -104,12 +108,10 @@ void Menu::remove(){
     std::cout << "Enter ID of student: ";
     std::cin >> id;
 
-    Student temp("",-99,"",NULL,id);
-
-    if(tree->Lookup(temp)){
-        tree->Delete(id);
-        cout << "DONE" << endl;
+    if(tree->Delete(id)){
+        cout << "Student deleted.\n";
     }
+
 
 }
 

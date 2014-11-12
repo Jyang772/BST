@@ -19,6 +19,7 @@ public:
     void readFileData();
     void writeFileData();
     void search();
+    void searchByName();
     void add();
     void remove();
     void display();

@@ -29,6 +29,7 @@ public:
 
     //EXTRA
     ostream& writeTree(ostream& os, int length);
+    double getAverage();
 
 //private:
     string m_name;
