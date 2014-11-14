@@ -31,7 +31,9 @@ class Tree
 public:
     Tree();
     Tree(const Tree& tree2);
-    ~Tree(){}
+    ~Tree(){
+        Clear(m_root);
+    }
 
     bool Insert(const Student &student);
 

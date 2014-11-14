@@ -11,6 +11,7 @@ ostream& operator<<(ostream&, const TreeNode&);
 
 int main()
 {
+    //int *pt = new int;
 
     ifstream file;
     file.open("students.dat");
@@ -31,7 +32,7 @@ int main()
     tree.Insert(student2);
     tree.Insert(student3);
 
-    cout << tree.getMaxAvg();
+    cout << tree.getMaxAvg() << endl;
 
 //    Student temp;
 //    temp.m_id = 1337;
