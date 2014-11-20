@@ -4,6 +4,9 @@
 
 
 #define MAX(x,y) (x > y) ? x : y
+//#ifndef MAX
+//#define MAX(x,y) ((x) > (y) ? (x) : (y))
+//#endif
 
 Tree::Tree()
 {
@@ -318,9 +321,7 @@ int Tree::getHeight(TreeNode *pTree){
         return -1;
     }
 
-    return MAX(getHeight(pTree->m_left), getHeight(pTree->m_right)) + 1;
-
-
+    return std::max(getHeight(pTree->m_left),getHeight(pTree->m_right)) + 1;
 
 }
 

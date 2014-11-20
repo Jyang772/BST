@@ -23,22 +23,24 @@ int main()
     Student student("Mr. Mead",18,"Computer Science",test,1337);
     Student student2("Saxton Hale",18,"Mathematics",test2,1000);
     Student student3("Banana",18,"Computer Science",test3,2000);
-    Student student4("ZZZZ",18,"Computer Science",test,1337);
+    Student student4("ZZZZ",18,"Computer Science",test,10);
+
     Student student5("RRR",18,"Computer Science",test,1337);
     Student student6("Alpha",19,"Computer Science",test,1337);
 
     tree.Insert(student);
     tree.Insert(student2);
     tree.Insert(student3);
+    tree.Insert(student4);
 
-    std::vector<Student> students;
+    //std::vector<Student> students;
     //tree.getPeopleWithAvg(90,students);
     //tree.getPeopleWithMajor("Computer Science",students);
     //tree.getPeopleWithMaxAvg(students);
-    //cout << tree.getHeight();
+    cout << tree.getHeight() << endl;
 
-    for(auto i : students)
-        i.writeToScreen();
+//    for(auto i : students)
+//        i.writeToScreen();
 
     //    Student temp;
     //    temp.m_id = 1337;

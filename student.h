@@ -39,7 +39,7 @@ public:
     double getAverage();
 
 
-private:
+//private:
     string m_name;
     int m_age;
     string m_major;
