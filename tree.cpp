@@ -340,10 +340,12 @@ void Tree::printLevels(){
 
         if(pTree){
             cout << pTree->m_student << endl;
+            if(pTree->m_left != nullptr)
             nodes_next.push_back(pTree->m_left);
+            if(pTree->m_right != nullptr)
             nodes_next.push_back(pTree->m_right);
         }
-        if(nodes.empty() && pTree != nullptr){
+        if(nodes.empty() && !nodes_next.empty()){
             level++;
             cout << "Level: " << level << endl;
             std::swap(nodes,nodes_next);  //Swap current level with next level
