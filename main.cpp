@@ -37,7 +37,8 @@ int main()
     //tree.getPeopleWithAvg(90,students);
     //tree.getPeopleWithMajor("Computer Science",students);
     //tree.getPeopleWithMaxAvg(students);
-    cout << tree.getHeight() << endl;
+    //cout << tree.getHeight() << endl;
+    tree.printLevels();
 
 //    for(auto i : students)
 //        i.writeToScreen();

@@ -1,12 +1,13 @@
 #include "tree.h"
+#include <queue>
 
 
 
 
-#define MAX(x,y) (x > y) ? x : y
-//#ifndef MAX
-//#define MAX(x,y) ((x) > (y) ? (x) : (y))
-//#endif
+//#define MAX(x,y) (x > y) ? x : y
+#ifndef MAX
+#define MAX(x,y) ((x) > (y) ? x : (y))
+#endif
 
 Tree::Tree()
 {
@@ -321,10 +322,35 @@ int Tree::getHeight(TreeNode *pTree){
         return -1;
     }
 
-    return std::max(getHeight(pTree->m_left),getHeight(pTree->m_right)) + 1;
+    return /*std::max*/ MAX(getHeight(pTree->m_left),getHeight(pTree->m_right)) + 1;
 
 }
 
+void Tree::printLevels(){
+
+    int level = 0;
+    std::vector<TreeNode*> nodes, nodes_next;
+    nodes.push_back(m_root);
+    cout << "Level: " << level << endl;
+
+    while(!nodes.empty()){
+
+        TreeNode *pTree = nodes.front();
+        nodes.erase(nodes.begin());
+
+        if(pTree){
+            cout << pTree->m_student << endl;
+            nodes_next.push_back(pTree->m_left);
+            nodes_next.push_back(pTree->m_right);
+        }
+        if(nodes.empty() && pTree != nullptr){
+            level++;
+            cout << "Level: " << level << endl;
+            std::swap(nodes,nodes_next);  //Swap current level with next level
+        }
+    }
+
+}
 
 
 

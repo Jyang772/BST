@@ -60,7 +60,7 @@ public:
     void getPeopleWithMajor(string major, std::vector<Student>&, TreeNode*);
     void getPeopleWithMaxAvg(std::vector<Student>&);
     void getPeopleWithMaxAvg(double &max, std::vector<Student>&, TreeNode*);
-
+    void printLevels();
 
     void PrintTree2(TreeNode* pTree,int level, int indentSpace, ostream&);
     void printBranches(int branchLen, int nodeSpaceLen, int startLen, int nodesInThisLevel, const deque<TreeNode*>& nodesQueue, ostream& out);
