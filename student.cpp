@@ -10,7 +10,7 @@ Student::Student(string name, int age, string major, int tests[], int id){
     m_age = age;
     m_major = major;
 
-   // std::copy(std::begin(tests),std::end(tests),std::begin(m_test));
+    // std::copy(std::begin(tests),std::end(tests),std::begin(m_test));
     std::copy(tests,tests+3,m_test);
     m_id = id;
 
@@ -18,8 +18,8 @@ Student::Student(string name, int age, string major, int tests[], int id){
 
 bool Student::operator <(Student& other) const{
 
-//    if(m_name.compare(other.m_name) < 0)
-//        return true;
+    //    if(m_name.compare(other.m_name) < 0)
+    //        return true;
     if(this->m_id < other.m_id)
         return true;
 
@@ -35,8 +35,8 @@ bool Student::operator <(int id) const{
 
 bool Student::operator >(Student& other) const{
 
-//    if(m_name.compare(other.m_name) > 0)
-//        return true;
+    //    if(m_name.compare(other.m_name) > 0)
+    //        return true;
 
     if(this->m_id > other.m_id)
         return true;
@@ -46,6 +46,12 @@ bool Student::operator >(Student& other) const{
 
 bool Student::operator >(int id) const{
     if(id < this->m_id )
+        return true;
+    return false;
+}
+
+bool Student::operator ==(int id) const{
+    if(id == this->m_id)
         return true;
     return false;
 }
@@ -61,13 +67,13 @@ ostream& operator <<(ostream& os, Student& other) {
     os << other.m_test[2] << endl;
     os << other.m_id << endl;
 
-//    os << other.m_name << ", ";
-//    os << other.m_major << ", ";
-//    os << other.m_age << ", ";
-//    os << other.m_test[0] << ", ";
-//    os << other.m_test[1] << ", ";
-//    os << other.m_test[2] << ", ";
-//    os << other.m_id << endl;
+    //    os << other.m_name << ", ";
+    //    os << other.m_major << ", ";
+    //    os << other.m_age << ", ";
+    //    os << other.m_test[0] << ", ";
+    //    os << other.m_test[1] << ", ";
+    //    os << other.m_test[2] << ", ";
+    //    os << other.m_id << endl;
 
     return os;
 }
@@ -98,13 +104,13 @@ bool Student::readFromFile(ifstream &is){
 
 void Student::writeToFile(ofstream &os){
 
-    os << this->m_name;
-    os << this->m_major;
-    os << this->m_age;
-    os << this->m_test[0];
-    os << this->m_test[1];
-    os << this->m_test[2];
-    os << this->m_id;
+    os << this->m_name << endl;
+    os << this->m_major << endl;
+    os << this->m_age << endl;
+    os << this->m_test[0] << " ";
+    os << this->m_test[1] << " ";
+    os << this->m_test[2] << endl;
+    os << this->m_id << endl;
 }
 
 void Student::writeToScreen(){
@@ -112,12 +118,12 @@ void Student::writeToScreen(){
 
 
     std::cout << this->m_name << "\n";
-    std::cout << this->m_major << "\n";
-    std::cout << this->m_age << "\n";
-    std::cout << this->m_test[0] << "\n";
-    std::cout << this->m_test[1] << "\n";
-    std::cout << this->m_test[2] << "\n";
-    std::cout << this->m_id << std::endl;
+    std::cout << "Major: " << this->m_major << "\n";
+    std::cout << "Age: " << this->m_age << "\n";
+    std::cout << "Test #1: " << this->m_test[0] << "\n";
+    std::cout << "Test #2: " << this->m_test[1] << "\n";
+    std::cout << "Test #3: " << this->m_test[2] << "\n";
+    std::cout << "ID: " << this->m_id << "\n\n";
 }
 
 ostream& Student::writeTree(ostream& os, int length){
@@ -125,10 +131,10 @@ ostream& Student::writeTree(ostream& os, int length){
 
     for(int i=0; i<length; i++)
         os << " ";
-      os << this->m_name << std::endl;
+    os << this->m_name << std::endl;
 
     for(int i=0; i<length; i++)
-          os << " ";
+        os << " ";
     os << this->m_major << std::endl;
 
 

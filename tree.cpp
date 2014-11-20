@@ -37,6 +37,7 @@ bool Tree::Delete(int id){
 }
 
 void Tree::Print() const{
+
     Print(m_root);
 }
 
@@ -54,7 +55,7 @@ int Tree::getHeight(){
 }
 
 void Tree::PrintFile(ofstream &of){
-    Print(of,m_root);
+    PrintFile(of,m_root);
 }
 
 //Private Helper Functions
@@ -124,7 +125,7 @@ bool Tree::Delete(int id, TreeNode *&pTree){
     else if(pTree->m_student < id){
         Delete(id,pTree->m_right);
     }
-    else if(pTree->m_student.m_id == id){
+    else if(pTree->m_student == id){
         cout << "Deleting Node!" << endl;
         DeleteNode(pTree);
     }
@@ -194,12 +195,18 @@ void Tree::Copy(TreeNode *&pThis, TreeNode *pTree2){
 
 
 void Tree::Print(TreeNode *pTree) const{
+    //Print to screen.
 
-    Print(std::cout,m_root);
+    if(pTree != nullptr){
+        Print(pTree->m_left);
+        pTree->m_student.writeToScreen();
+        Print(pTree->m_right);
+    }
 
 }
 
 void Tree::Print(ostream &os, TreeNode *pTree) const{
+    //For << operator
     if(pTree != nullptr){
 
         Print(os,pTree->m_left);
@@ -210,12 +217,17 @@ void Tree::Print(ostream &os, TreeNode *pTree) const{
 
 }
 
+void Tree::PrintFile(ofstream &of, TreeNode *pTree) const{
 
+    if(pTree != nullptr){
+        PrintFile(of,pTree->m_left);
+        pTree->m_student.writeToFile(of);
+        PrintFile(of,pTree->m_right);
+    }
+
+}
 
 //EXTRA
-
-
-//Get maximum average
 
 double Tree::getMaxAvg(){
 
@@ -225,15 +237,79 @@ double Tree::getMaxAvg(){
 }
 
 void Tree::getMaxAvg(double &max, TreeNode *pTree){
+    //Recursive function
 
     double average;
     if(pTree != nullptr){
 
         getMaxAvg(max,pTree->m_left);
-        max = pTree->m_student.getAverage();
+        average = pTree->m_student.getAverage();
+        if(average > max)
+            max = average;
         getMaxAvg(max,pTree->m_right);
     }
 
+}
+
+void Tree::getPeopleWithAvg(int average, std::vector<Student>& students){
+
+    getPeopleWithAvg(average, students, m_root);
+
+}
+
+void Tree::getPeopleWithAvg(int average, std::vector<Student>& students, TreeNode* pTree){
+
+    if(pTree != nullptr){
+
+        getPeopleWithAvg(average,students, pTree->m_left);
+        if(pTree->m_student.getAverage() == average)
+            students.push_back(pTree->m_student);
+        getPeopleWithAvg(average,students,pTree->m_right);
+
+    }
+
+
+}
+
+void Tree::getPeopleWithMajor(string major, std::vector<Student>& students){
+
+    getPeopleWithMajor(major,students,m_root);
+
+}
+
+void Tree::getPeopleWithMajor(string major, std::vector<Student>& students, TreeNode* pTree){
+
+    if(pTree != nullptr){
+
+        getPeopleWithMajor(major,students,pTree->m_left);
+        if(pTree->m_student.getMajor() == major)
+            students.push_back(pTree->m_student);
+        getPeopleWithMajor(major, students,pTree->m_right);
+    }
+
+}
+
+void Tree::getPeopleWithMaxAvg(std::vector<Student>& students){
+
+    double max = 0;
+    getPeopleWithMaxAvg(max, students, m_root);
+}
+
+void Tree::getPeopleWithMaxAvg(double &max, std::vector<Student>& students, TreeNode* pTree){
+
+    if(pTree != nullptr){
+
+        getPeopleWithMaxAvg(max, students,pTree->m_left);
+        if(pTree->m_student.getAverage() > max){
+            students.clear();
+            students.push_back(pTree->m_student);
+            max = pTree->m_student.getAverage();
+        }
+        else if(pTree->m_student.getAverage() == max){
+            students.push_back(pTree->m_student);
+        }
+        getPeopleWithMaxAvg(max,students,pTree->m_right);
+    }
 }
 
 int Tree::getHeight(TreeNode *pTree){
@@ -242,147 +318,155 @@ int Tree::getHeight(TreeNode *pTree){
         return -1;
     }
 
-   return MAX(getHeight(pTree->m_left), getHeight(pTree->m_right)) + 1;
+    return MAX(getHeight(pTree->m_left), getHeight(pTree->m_right)) + 1;
 
 
 
 }
 
-void Tree::PrintTree2(TreeNode* pTree, int level, int indentSpace, ostream& out ){
-
-    int h = getHeight(m_root)+2;
-    cout << h << endl;
-    int nodesInThisLevel = 1;
-
-    int branchLen = 2*((int)pow(2.0,h)-1) - (3-level)*(int)pow(2.0,h-1);
-    int nodeSpaceLen = 2 + (level+1)*(int)pow(2.0,h);
-    int startLen = branchLen + (3-level) + indentSpace;
-
-    deque<TreeNode*> nodesQueue;
-    nodesQueue.push_back(m_root);
-    for (int r = 1; r < h; r++) {
-      printBranches(branchLen, nodeSpaceLen, startLen, nodesInThisLevel, nodesQueue, out);
-      branchLen = branchLen/2 - 1;
-      nodeSpaceLen = nodeSpaceLen/2 + 1;
-      startLen = branchLen + (3-level) + indentSpace;
-      printNodes(branchLen, nodeSpaceLen, startLen, nodesInThisLevel, r, nodesQueue, out);
-
-      for (int i = 0; i < nodesInThisLevel; i++) {
-        TreeNode *currNode = nodesQueue.front();
-        nodesQueue.pop_front();
-        if (currNode) {
-            nodesQueue.push_back(currNode->m_left);
-            nodesQueue.push_back(currNode->m_right);
-        } else {
-          nodesQueue.push_back(NULL);
-          nodesQueue.push_back(NULL);
-        }
-      }
-      nodesInThisLevel *= 2;
-    }
-    printBranches(branchLen, nodeSpaceLen, startLen, nodesInThisLevel, nodesQueue, out);
-    printLeaves(indentSpace, level, nodesInThisLevel, nodesQueue, out);
 
 
-}
-
-void Tree::printBranches(int branchLen, int nodeSpaceLen, int startLen, int nodesInThisLevel, const deque<TreeNode*>& nodesQueue, ostream& out) {
-    deque<TreeNode*>::const_iterator iter = nodesQueue.begin();
-    for (int i = 0; i < nodesInThisLevel / 2; i++) {
-      out << ((i == 0) ? setw(startLen-1) : setw(nodeSpaceLen-2)) << "" << ((*iter++) ? "/" : " ");
-      out << setw(2*branchLen+2) << "" << ((*iter++) ? "\\" : " ");
-    }
-    out << endl;
-}
-
-void Tree::printNodes(int branchLen, int nodeSpaceLen, int startLen, int nodesInThisLevel, int currentLevel, const deque<TreeNode*>& nodesQueue, ostream& out) {
-    deque<TreeNode*>::const_iterator iter = nodesQueue.begin();
-    for (int i = 0; i < nodesInThisLevel; i++, iter++) {
-      out << ((i == 0) ? setw(startLen) : setw(nodeSpaceLen)) << "" << ((*iter && (*iter)->m_left) ? setfill(' ') : setfill(' '));
-      out << setw(branchLen+2) << ((*iter) ? ((*iter)->m_student.m_name) : "");
-      out << ((*iter && (*iter)->m_right) ? setfill(' ') : setfill(' ')) << setw(branchLen) << "" << setfill(' ');
-    }
-    out << endl;
-    iter = nodesQueue.begin();
-  //
-    for (int i = 0; i < nodesInThisLevel; i++, iter++) {
-      out << ((i == 0) ? setw(startLen) : setw(nodeSpaceLen-10)) << "" << ((*iter && (*iter)->m_left) ? setfill(' ') : setfill(' '));
-      out << setw(branchLen-10) << "" << ((*iter) ? ("major: Mathematics") : "");
-      out << ((*iter && (*iter)->m_right) ? setfill(' ') : setfill(' ')) << setw(branchLen) << "" << setfill(' ');
-    }
-    out << endl;
-    iter = nodesQueue.begin();
-  //
-    for (int i = 0; i < nodesInThisLevel; i++, iter++) {
-      out << ((i == 0) ? setw(startLen) : setw(nodeSpaceLen)) << "" << ((*iter && (*iter)->m_left) ? setfill(' ') : setfill(' '));
-      //out << setw(branchLen+2) << ((*iter) ? ("age: 10") : "");
-
-      if((*iter)){
-          out << setw(branchLen+2) << "age: " << (*iter)->m_student.m_age;
-      }
-      else{
-          out << setw(branchLen+2) << "";
-
-      }
-
-      out << ((*iter && (*iter)->m_right) ? setfill(' ') : setfill(' ')) << setw(branchLen) << "" << setfill(' ');
-    }
-    out << endl;
-    iter = nodesQueue.begin();
-  //
-
-    for (int i = 0; i < nodesInThisLevel; i++, iter++) {
-    out << ((i == 0) ? setw(startLen) : setw(nodeSpaceLen-5)) << "" << ((*iter && (*iter)->m_left) ? setfill(' ') : setfill(' '));
-    out << setw(branchLen+2+currentLevel) << ((*iter) ? ("tests: 100 100 100") : "");
-    out << ((*iter && (*iter)->m_right) ? setfill(' ') : setfill(' ')) << setw(branchLen) << "" << setfill(' ');
-    }
-    out << endl;
-    iter = nodesQueue.begin();
-  //
-    for (int i = 0; i < nodesInThisLevel; i++, iter++) {
-    out << ((i == 0) ? setw(startLen) : setw(nodeSpaceLen)) << "" << ((*iter && (*iter)->m_left) ? setfill('_') : setfill(' '));
-    //out << setw(branchLen+2) << ((*iter) ? ("id: 1337") : "");
-    if((*iter)){
-        out << setw(branchLen+2) << "ID: " << (*iter)->m_student.m_id;
-    }
-    else{
-        out << setw(branchLen+2) << "";
-
-    }
-
-    out << ((*iter && (*iter)->m_right) ? setfill('_') : setfill(' ')) << setw(branchLen) << "" << setfill(' ');
-    }
-
-    out << endl;
-}
 
 
-void Tree::printLeaves(int indentSpace, int level, int nodesInThisLevel, const deque<TreeNode*>& nodesQueue, ostream& out) {
-    deque<TreeNode*>::const_iterator iter = nodesQueue.begin();
-    for (int i = 0; i < nodesInThisLevel; i++, iter++) {
-      out << ((i == 0) ? setw(indentSpace+2) : setw(2*level+2)) << ((*iter) ? ((*iter)->m_student.m_name) : "");
-    }
 
-    out << endl;
-    iter = nodesQueue.begin();
-    for (int i = 0; i < nodesInThisLevel; i++, iter++) {
-      out << ((i == 0) ? setw(indentSpace+2) : setw(2*level+2)) << ((*iter) ? ("major: Computer Science") : "");
-    }
-    out << endl;
-    iter = nodesQueue.begin();
-    for (int i = 0; i < nodesInThisLevel; i++, iter++) {
-      out << ((i == 0) ? setw(indentSpace+2) : setw(2*level+2)) << ((*iter) ? ("age: 10") : "");
-    }
-    out << endl;
-    iter = nodesQueue.begin();
-    for (int i = 0; i < nodesInThisLevel; i++, iter++) {
-      out << ((i == 0) ? setw(indentSpace+2) : setw(2*level+2)) << ((*iter) ? ("tests: 100 100 100") : "");
-    }
-    out << endl;
-    iter = nodesQueue.begin();
-    for (int i = 0; i < nodesInThisLevel; i++, iter++) {
-      out << ((i == 0) ? setw(indentSpace+2) : setw(2*level+2)) << ((*iter) ? ("id: 1337") : "");
-    }
 
-  out << endl;
-}
+
+
+//void Tree::PrintTree2(TreeNode* pTree, int level, int indentSpace, ostream& out ){
+
+//    int h = getHeight(m_root)+2;
+//    cout << h << endl;
+//    int nodesInThisLevel = 1;
+
+//    int branchLen = 2*((int)pow(2.0,h)-1) - (3-level)*(int)pow(2.0,h-1);
+//    int nodeSpaceLen = 2 + (level+1)*(int)pow(2.0,h);
+//    int startLen = branchLen + (3-level) + indentSpace;
+
+//    deque<TreeNode*> nodesQueue;
+//    nodesQueue.push_back(m_root);
+//    for (int r = 1; r < h; r++) {
+//      printBranches(branchLen, nodeSpaceLen, startLen, nodesInThisLevel, nodesQueue, out);
+//      branchLen = branchLen/2 - 1;
+//      nodeSpaceLen = nodeSpaceLen/2 + 1;
+//      startLen = branchLen + (3-level) + indentSpace;
+//      printNodes(branchLen, nodeSpaceLen, startLen, nodesInThisLevel, r, nodesQueue, out);
+
+//      for (int i = 0; i < nodesInThisLevel; i++) {
+//        TreeNode *currNode = nodesQueue.front();
+//        nodesQueue.pop_front();
+//        if (currNode) {
+//            nodesQueue.push_back(currNode->m_left);
+//            nodesQueue.push_back(currNode->m_right);
+//        } else {
+//          nodesQueue.push_back(NULL);
+//          nodesQueue.push_back(NULL);
+//        }
+//      }
+//      nodesInThisLevel *= 2;
+//    }
+//    printBranches(branchLen, nodeSpaceLen, startLen, nodesInThisLevel, nodesQueue, out);
+//    printLeaves(indentSpace, level, nodesInThisLevel, nodesQueue, out);
+
+
+//}
+
+//void Tree::printBranches(int branchLen, int nodeSpaceLen, int startLen, int nodesInThisLevel, const deque<TreeNode*>& nodesQueue, ostream& out) {
+//    deque<TreeNode*>::const_iterator iter = nodesQueue.begin();
+//    for (int i = 0; i < nodesInThisLevel / 2; i++) {
+//      out << ((i == 0) ? setw(startLen-1) : setw(nodeSpaceLen-2)) << "" << ((*iter++) ? "/" : " ");
+//      out << setw(2*branchLen+2) << "" << ((*iter++) ? "\\" : " ");
+//    }
+//    out << endl;
+//}
+
+//void Tree::printNodes(int branchLen, int nodeSpaceLen, int startLen, int nodesInThisLevel, int currentLevel, const deque<TreeNode*>& nodesQueue, ostream& out) {
+//    deque<TreeNode*>::const_iterator iter = nodesQueue.begin();
+//    for (int i = 0; i < nodesInThisLevel; i++, iter++) {
+//      out << ((i == 0) ? setw(startLen) : setw(nodeSpaceLen)) << "" << ((*iter && (*iter)->m_left) ? setfill(' ') : setfill(' '));
+//      out << setw(branchLen+2) << ((*iter) ? ((*iter)->m_student.m_name) : "");
+//      out << ((*iter && (*iter)->m_right) ? setfill(' ') : setfill(' ')) << setw(branchLen) << "" << setfill(' ');
+//    }
+//    out << endl;
+//    iter = nodesQueue.begin();
+//  //
+//    for (int i = 0; i < nodesInThisLevel; i++, iter++) {
+//      out << ((i == 0) ? setw(startLen) : setw(nodeSpaceLen-10)) << "" << ((*iter && (*iter)->m_left) ? setfill(' ') : setfill(' '));
+//      out << setw(branchLen-10) << "" << ((*iter) ? ("major: Mathematics") : "");
+//      out << ((*iter && (*iter)->m_right) ? setfill(' ') : setfill(' ')) << setw(branchLen) << "" << setfill(' ');
+//    }
+//    out << endl;
+//    iter = nodesQueue.begin();
+//  //
+//    for (int i = 0; i < nodesInThisLevel; i++, iter++) {
+//      out << ((i == 0) ? setw(startLen) : setw(nodeSpaceLen)) << "" << ((*iter && (*iter)->m_left) ? setfill(' ') : setfill(' '));
+//      //out << setw(branchLen+2) << ((*iter) ? ("age: 10") : "");
+
+//      if((*iter)){
+//          out << setw(branchLen+2) << "age: " << (*iter)->m_student.m_age;
+//      }
+//      else{
+//          out << setw(branchLen+2) << "";
+
+//      }
+
+//      out << ((*iter && (*iter)->m_right) ? setfill(' ') : setfill(' ')) << setw(branchLen) << "" << setfill(' ');
+//    }
+//    out << endl;
+//    iter = nodesQueue.begin();
+//  //
+
+//    for (int i = 0; i < nodesInThisLevel; i++, iter++) {
+//    out << ((i == 0) ? setw(startLen) : setw(nodeSpaceLen-5)) << "" << ((*iter && (*iter)->m_left) ? setfill(' ') : setfill(' '));
+//    out << setw(branchLen+2+currentLevel) << ((*iter) ? ("tests: 100 100 100") : "");
+//    out << ((*iter && (*iter)->m_right) ? setfill(' ') : setfill(' ')) << setw(branchLen) << "" << setfill(' ');
+//    }
+//    out << endl;
+//    iter = nodesQueue.begin();
+//  //
+//    for (int i = 0; i < nodesInThisLevel; i++, iter++) {
+//    out << ((i == 0) ? setw(startLen) : setw(nodeSpaceLen)) << "" << ((*iter && (*iter)->m_left) ? setfill('_') : setfill(' '));
+//    //out << setw(branchLen+2) << ((*iter) ? ("id: 1337") : "");
+//    if((*iter)){
+//        out << setw(branchLen+2) << "ID: " << (*iter)->m_student.m_id;
+//    }
+//    else{
+//        out << setw(branchLen+2) << "";
+
+//    }
+
+//    out << ((*iter && (*iter)->m_right) ? setfill('_') : setfill(' ')) << setw(branchLen) << "" << setfill(' ');
+//    }
+
+//    out << endl;
+//}
+
+
+//void Tree::printLeaves(int indentSpace, int level, int nodesInThisLevel, const deque<TreeNode*>& nodesQueue, ostream& out) {
+//    deque<TreeNode*>::const_iterator iter = nodesQueue.begin();
+//    for (int i = 0; i < nodesInThisLevel; i++, iter++) {
+//      out << ((i == 0) ? setw(indentSpace+2) : setw(2*level+2)) << ((*iter) ? ((*iter)->m_student.m_name) : "");
+//    }
+
+//    out << endl;
+//    iter = nodesQueue.begin();
+//    for (int i = 0; i < nodesInThisLevel; i++, iter++) {
+//      out << ((i == 0) ? setw(indentSpace+2) : setw(2*level+2)) << ((*iter) ? ("major: Computer Science") : "");
+//    }
+//    out << endl;
+//    iter = nodesQueue.begin();
+//    for (int i = 0; i < nodesInThisLevel; i++, iter++) {
+//      out << ((i == 0) ? setw(indentSpace+2) : setw(2*level+2)) << ((*iter) ? ("age: 10") : "");
+//    }
+//    out << endl;
+//    iter = nodesQueue.begin();
+//    for (int i = 0; i < nodesInThisLevel; i++, iter++) {
+//      out << ((i == 0) ? setw(indentSpace+2) : setw(2*level+2)) << ((*iter) ? ("tests: 100 100 100") : "");
+//    }
+//    out << endl;
+//    iter = nodesQueue.begin();
+//    for (int i = 0; i < nodesInThisLevel; i++, iter++) {
+//      out << ((i == 0) ? setw(indentSpace+2) : setw(2*level+2)) << ((*iter) ? ("id: 1337") : "");
+//    }
+
+//  out << endl;
+//}

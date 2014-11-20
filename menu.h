@@ -24,6 +24,8 @@ public:
     void remove();
     void display();
 
+    void getMaxAvg();
+
 private:
     Tree *tree;
 

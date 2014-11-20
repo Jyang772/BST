@@ -18,9 +18,9 @@ void Menu::readFileData(){
 
     if(file.is_open()){
 
-    while(temp.readFromFile(file)){
-        students.push_back(temp);
-    }
+        while(temp.readFromFile(file)){
+            students.push_back(temp);
+        }
 
     }
     else{
@@ -31,7 +31,7 @@ void Menu::readFileData(){
     for(auto i : students){
         tree->Insert(i);
     }
-    cout << "OVER" << endl;
+    cout << "\nFile Data Read.\n" << endl;
 }
 
 void Menu::writeFileData(){
@@ -57,7 +57,7 @@ void Menu::search(){
     std::cin >> id;
 
     Student temp;
-    temp.m_id = id;
+    temp.setID(id);
 
     if(tree->Lookup(temp)){
         cout << "Student Found: \n";
@@ -117,6 +117,11 @@ void Menu::remove(){
 
 void Menu::display(){
 
-    //tree->Print();
-    cout << *tree << endl;
+    cout << "\n";
+    tree->Print();
+}
+
+void Menu::getMaxAvg(){
+
+    cout << "Maximum average: " << tree->getMaxAvg() << endl;
 }

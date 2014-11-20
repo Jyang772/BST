@@ -46,16 +46,21 @@ public:
     void Print() const;
 
     Tree& operator=(const Tree& tree2);
-
+    void PrintFile(ofstream& of);
+    int getHeight();
 
     //EXTRA
+    //void PrintTree(ostream& os, TreeNode* pTree);
 
     double getMaxAvg();
     void getMaxAvg(double &max, TreeNode *pTree);
+    void getPeopleWithAvg(int average, std::vector<Student>&);
+    void getPeopleWithAvg(int average, std::vector<Student>&, TreeNode*);
+    void getPeopleWithMajor(string major, std::vector<Student>&);
+    void getPeopleWithMajor(string major, std::vector<Student>&, TreeNode*);
+    void getPeopleWithMaxAvg(std::vector<Student>&);
+    void getPeopleWithMaxAvg(double &max, std::vector<Student>&, TreeNode*);
 
-    void PrintFile(ofstream& of);
-    //void PrintTree(ostream& os, TreeNode* pTree);
-    int getHeight();
 
     void PrintTree2(TreeNode* pTree,int level, int indentSpace, ostream&);
     void printBranches(int branchLen, int nodeSpaceLen, int startLen, int nodesInThisLevel, const deque<TreeNode*>& nodesQueue, ostream& out);
@@ -70,6 +75,7 @@ private:
     int Size(TreeNode* pTree) const;
 
     void Print(ostream& os, TreeNode* pTree) const;
+    void PrintFile(ofstream &of, TreeNode* pTree) const;
 
     bool Lookup(Student &student, TreeNode* pTree) const;
 
