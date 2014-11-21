@@ -4,9 +4,9 @@
 #include "student.h"
 #include "tree.h"
 
-//#define _AFXDLL
-//#include <afxwin.h>
-//#define new DEBUG_NEW
+#define _AFXDLL
+#include <afxwin.h>
+#define new DEBUG_NEW
 
 using namespace std;
 
