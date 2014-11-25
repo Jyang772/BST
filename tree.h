@@ -77,7 +77,7 @@ private:
     void Print(ostream& os, TreeNode* pTree) const;
     void PrintFile(ofstream &of, TreeNode* pTree) const;
 
-    bool Lookup(Student &student, TreeNode* pTree) const;
+    void Lookup(Student &student, TreeNode* pTree, bool &found) const;
 
     bool Delete(int id, TreeNode*& pTree);
     void DeleteNode(TreeNode*& pTree);

@@ -32,8 +32,9 @@ int Tree::Size() const{
 }
 
 bool Tree::Lookup(Student &student) const{
-
-    return Lookup(student,m_root);
+    bool found = false;
+    Lookup(student,m_root, found);
+    return found;
 }
 
 bool Tree::Delete(int id){
@@ -86,25 +87,24 @@ int Tree::Size(TreeNode *pTree) const{
         return Size(pTree->m_left) + Size(pTree->m_right) + 1;
 }
 
-bool Tree::Lookup(Student &student, TreeNode *pTree) const{
+void Tree::Lookup(Student &student, TreeNode *pTree, bool &found) const{
 
     if(pTree == nullptr){
-        return false;
+        found = false;
     }
     else{
         if(student < pTree->m_student){
-            Lookup(student,pTree->m_left);
+            Lookup(student,pTree->m_left,found);
         }
         else if(student > pTree->m_student){
-            Lookup(student,pTree->m_right);
+            Lookup(student,pTree->m_right,found);
         }
         else
         {
             student = pTree->m_student;
-			return true;
+            found = true;
         }
     }
-	return false;
 }
 
 bool Tree::Insert(const Student &student, TreeNode *&pTree){
