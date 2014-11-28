@@ -117,7 +117,7 @@ void Student::writeToScreen(){
     //Using \n for efficiency. Don't have to flush the output stream every time with std::endl
 
 
-    std::cout << this->m_name << "\n";
+    std::cout << "Name: " << this->m_name << "\n";
     std::cout << "Major: " << this->m_major << "\n";
     std::cout << "Age: " << this->m_age << "\n";
     std::cout << "Test #1: " << this->m_test[0] << "\n";

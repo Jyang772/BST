@@ -15,49 +15,22 @@ ostream& operator<<(ostream&, const TreeNode&);
 
 int main()
 {
-    int *pt = new int;
-
-    ifstream file;
-    file.open("students.dat");
+    //int *pt = new int;
+  /*  ifstream file;
+    file.open("students.dat");*/
 
 
     Tree tree;
 
-//	int test[3] = {100,90,100};
-//    int test2[3] = {80,90,100};
-//    int test3[3] = {90,90,90};
-//    Student student("Mr. Mead",18,"Computer Science",test,1337);
-//    Student student2("Saxton Hale",18,"Mathematics",test2,1000);
-//    Student student3("Banana",18,"Computer Science",test3,2000);
-//    Student student4("ZZZZ",18,"Computer Science",test,10);
-
-//    Student student5("RRR",18,"Computer Science",test,1337);
-//    Student student6("Alpha",19,"Computer Science",test,1337);
-
-//    tree.Insert(student);
-//    tree.Insert(student2);
-//    tree.Insert(student3);
-//    tree.Insert(student4);
-
-//	Tree tree2;
-//    std::vector<Student> students;
-//	tree2 = tree;
-//    //cout << tree2 << endl;
-
-//    cout << tree.getMaxAvg() << endl;
-    //tree.printLevels();
-
-
-
-    //std::vector<Student> students;
+    std::vector<Student> students;
     //tree.getPeopleWithAvg(90,students);
     //tree.getPeopleWithMajor("Computer Science",students);
     //tree.getPeopleWithMaxAvg(students);
     //cout << tree.getHeight() << endl;
     //tree.printLevels();
 
-//    for(auto i : students)
-//        i.writeToScreen();
+    //for(auto i : students)
+     //   i.writeToScreen();
 
     //    Student temp;
     //    temp.m_id = 1337;
@@ -81,7 +54,12 @@ int main()
         cout << "[5] Remove student\n";
         cout << "[6] Display data\n";
         cout << "[7] Get Max Average\n";
-        cout << "[8] Exit Program\n";
+		cout << "[8] Get People With Average\n";
+		cout << "[9] Get People With Max Average\n";
+		cout << "[10] Get People With Major\n";
+		cout << "[11] Get Tree Height\n";
+		cout << "[12] Print By Level\n";
+        cout << "[13] Exit Program\n";
 
         cout << "Select an option: ";
         cin >> choice;
@@ -110,7 +88,22 @@ int main()
             menu.getMaxAvg();
             break;
         case 8:
-            done = true;
+			menu.getPeopleWithAvg();
+			break;
+		case 9:
+			menu.getPeopleWithMaxAvg();
+			break;
+		case 10:
+			menu.getPeopleWithMajor();
+			break;
+		case 11:
+			menu.getHeight();
+			break;
+		case 12:
+			menu.printByLevel();
+			break;
+		case 13:
+			done = true;
         default:
             break;
 

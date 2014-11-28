@@ -79,7 +79,8 @@ void Menu::add(){
     int id;
 
     std::cout << "Name: ";
-    std::cin >> name;
+	cin.ignore();
+    getline(cin,name);
     std::cout << "Major: ";
     std::cin >> major;
     std::cout << "Age: ";
@@ -127,4 +128,55 @@ void Menu::display(){
 void Menu::getMaxAvg(){
 
     cout << "\nMaximum average: " << tree->getMaxAvg() << "\n\n";
+}
+
+void Menu::getPeopleWithAvg(){
+
+	int average;
+	std::vector<Student> students;
+	
+	cout << "\nEnter average: ";
+	cin >> average;
+	tree->getPeopleWithAvg(average,students);
+
+	for(auto i : students)
+		i.writeToScreen();
+}
+
+void Menu::getPeopleWithMaxAvg(){
+
+	std::vector<Student> students;
+
+	cout << "\nPeople with max average: \n";
+
+	tree->getPeopleWithMaxAvg(students);
+
+	for(auto i : students)
+		i.writeToScreen();
+}
+
+void Menu::getPeopleWithMajor(){
+
+	string major;
+	std::vector<Student> students;
+
+	cout << "\nEnter major: ";
+	cin.ignore();
+	getline(cin,major);
+
+	tree->getPeopleWithMajor(major,students);
+
+	for(auto i : students)
+		i.writeToScreen();
+}
+
+void Menu::getHeight(){
+
+	cout << "\nTree Height: " << tree->getHeight() << endl;
+}
+
+void Menu::printByLevel(){
+
+	tree->printLevels();
+
 }

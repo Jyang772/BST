@@ -25,6 +25,11 @@ public:
     void display();
 
     void getMaxAvg();
+	void getPeopleWithAvg();
+	void getPeopleWithMaxAvg();
+	void getPeopleWithMajor();
+	void getHeight();
+	void printByLevel();
 
 private:
     Tree *tree;

@@ -275,7 +275,7 @@ void Tree::getPeopleWithAvg(int average, std::vector<Student>& students, TreeNod
     if(pTree != nullptr){
 
         getPeopleWithAvg(average,students, pTree->m_left);
-        if(pTree->m_student.getAverage() == average)
+        if((int)pTree->m_student.getAverage() == average)
             students.push_back(pTree->m_student);
         getPeopleWithAvg(average,students,pTree->m_right);
 
@@ -337,7 +337,7 @@ int Tree::getHeight(TreeNode *pTree){
 
 void Tree::printLevels(){
 
-    int level = 0;
+    int level = 0;  //Root is zero.
     std::vector<TreeNode*> nodes, nodes_next;
     nodes.push_back(m_root);
     cout << "Level: " << level << endl;
@@ -345,16 +345,16 @@ void Tree::printLevels(){
     while(!nodes.empty()){
 
         TreeNode *pTree = nodes.front();
-        nodes.erase(nodes.begin());
+        nodes.erase(nodes.begin());                //Clear out vector. 
 
         if(pTree){
             cout << pTree->m_student << endl;
             if(pTree->m_left != nullptr)
-            nodes_next.push_back(pTree->m_left);
+            nodes_next.push_back(pTree->m_left);   //If there is level underneath, then push back.
             if(pTree->m_right != nullptr)
             nodes_next.push_back(pTree->m_right);
         }
-        if(nodes.empty() && !nodes_next.empty()){
+        if(nodes.empty() && !nodes_next.empty()){   //If current level is empty and next level is NOT empty, then continue and print.
             level++;
             cout << "Level: " << level << endl;
             std::swap(nodes,nodes_next);  //Swap current level with next level
